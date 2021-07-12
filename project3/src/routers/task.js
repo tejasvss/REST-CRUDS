@@ -1,23 +1,21 @@
 const express=require('express');
 const router=new express.Router();
+const auth=require('../middleware/auth');
 const Task=require('../models/task');
 
-router.post('/task',(req,res)=>{
-    const task=new Task(req.body);
+router.post('/task',auth,async(req,res)=>{
+    const task=new Task({
+        ...req.body,
+        owner:req.user._id
+    })
+    try{
+   await task.save();
+   res.status(200).send(task)
+    }catch(e){
+res.status(400).send(e);
+    }
+});
 
-    task.save().then(()=>{
-        res.send(task);
-    }).catch((e)=>{
-        res.status(400).send(e)
-    })
-});
-router.get('/task', (req, res) => {
-    Task.find({}).then((task) => {
-        res.send(task)
-    }).catch((e) => {
-        res.status(500).send()
-    })
-});
 router.get('/task/:id',async(req,res)=>{
     const id=req.params.id;
     try{

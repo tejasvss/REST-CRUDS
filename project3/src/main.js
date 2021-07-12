@@ -5,116 +5,69 @@ const  Staff=require('./models/staff');
 const Task=require('./models/task');
 const userRouter=require('./routers/user');
 const taskRouter=require('./routers/task');
-
+const bcrypt=require('bcryptjs');
+const jwt=require('jsonwebtoken');
+const auth=require('./middleware/auth')
 
 const app=express();
 const port=process.env.PORT || 3322;
 
+//methods maintenance
+
+// app.use((req,res,next)=>{
+// //   console.log(req.method,req.path);
+// //   next()
+// if(req.method==='POST'){
+// res.send("New requests are disabled");
+// }else{
+//     next();
+// }
+
+// })
+
+//Maintenance under message mode for every request
+
+// app.use((req,res,next)=>{
+//     res.send("This Website page is under Maintenenace come back after some time");
+// })
+
 app.use(express.json());
 app.use(userRouter);
 app.use(taskRouter);
-
+  
 app.listen(port,(()=>{
     console.log("Server is starting on "+port);
 })
 );
 
+// const myFunction=async()=>{
+ 
+// const password="Tej@1997";
+// const hashPassword=await bcrypt.hash(password,8);
 
+// console.log(password);
+// console.log(hashPassword);
 
-//USer URL
+// const isMatch=await bcrypt.compare("Tj@1997",hashPassword);
+// console.log(isMatch);
 
-// app.post('/user',(req,res)=>{
-//     const user=new User(req.body);
+// }
 
-//     user.save().then(()=>{
-//         res.send(user);
-//     }).catch((e)=>{
-//         res.status(400).send(e)
-//     })
-// });
+// myFunction();
 
+// const myFunction=async()=>{
+//     const token=jwt.sign({_id:'abc123'},'thisismynewcourse',{expiresIn:'5 seconds'})
+// console.log(token);
 
+// const data=jwt.verify(token,'thisismynewcourse');
+// console.log(data);
+// }
+// myFunction()
 
-// app.get('/user', (req, res) => {
-//     User.find({}).then((user) => {
-//         res.send(user)
-//     }).catch((e) => {
-//         res.status(500).send()
-//     })
-// })
+const main=async()=>{
+const task=await Task.findById('60ec36077d3c6009701c3266');
+await task.populate('owner').execPopulate()
+console.log(task.owner)
 
-//User URL getting data by single ID
-
-// app.get('/user/:id',(req,res)=>{
-//     const id=req.params.id;
-
-//     User.findById(id).then((user)=>{
-//         if(!user){
-//            return res.status(404).send();
-//         }
-//         res.send(user)
-//     }).catch((e)=>{
-//         res.status(500).send(e)
-//     })
-// })
-
-
-//Staff URL
-
-app.post('/staff',(req,res)=>{
-    const staff=new Staff(req.body);
-    staff.save().then(()=>{
-        res.send(staff);
-    }).catch((e)=>{
-        res.status(400).send(e)
-    })
-});
-
-app.get('/staff',(req,res)=>{
-    Staff.find({}).then((staff)=>{
-        res.send(staff)
-    }).catch((e)=>{
-        res.status(500).send(e);
-    })
-});
-
-//Staff URL getting data by single ID
-
-app.get('/staff/:id',(req,res)=>{
-    const _id=req.params.id;
-
-    Staff.findById(_id).then((staff)=>{
-        if(!staff){
-           return res.status(404).send();
-        }
-        res.send(staff)
-    }).catch((e)=>{
-        res.status(500).send(e)
-    })
-})
-
-//Post method for Taks
-
-
-
-
-
-
-// post and get opertaion on user by async and await 
-
-
-
-
-
-
-
-//Updating 
-
-
-
-
-
-
-
-//Deleting the data
-
+}
+main()
