@@ -64,10 +64,13 @@ app.listen(port,(()=>{
 // }
 // myFunction()
 
-const main=async()=>{
-const task=await Task.findById('60ec36077d3c6009701c3266');
-await task.populate('owner').execPopulate()
-console.log(task.owner)
+// const main=async()=>{
+// // const task=await Task.findById('60ec3495806e244d9c50f949');
+// // await task.populate('owner').execPopulate()
+// // console.log(task.owner)
+// const user=await User.findById('60ec3495806e244d9c50f949');
+// await user.populate('tasks').execPopulate()
+// console.log(user.tasks)
 
-}
-main()
+// }
+// main()
