@@ -11,28 +11,29 @@ const auth=require('./middleware/auth')
 
 const app=express();
 const port=process.env.PORT || 3322;
+// const port=process.env.PORT;
 
-const multer=require('multer');
-const upload=multer({
-    dest:'images',
-    limits:{
-        fileSize:1000000
-    },
-    fileFilter(req,file,cb){
-        if(!file.originalname.match(/\.(doc|docx)$/)){
-           return cb(new Error("Please Upload a Word Document"))
-        }
-     cb(undefined,true);
-    }
-})
+// const multer=require('multer');
+// const upload=multer({
+//     dest:'images',
+//     limits:{
+//         fileSize:1000000
+//     },
+//     fileFilter(req,file,cb){
+//         if(!file.originalname.match(/\.(doc|docx)$/)){
+//            return cb(new Error("Please Upload a Word Document"))
+//         }
+//      cb(undefined,true);
+//     }
+// })
 
-app.post('/upload',upload.single('upload'),(req,res)=>{
-    res.send()
-},(error,req,res,next)=>{
-    res.status(400).send({
-        error:error.message
-    })
-})
+// app.post('/upload',upload.single('upload'),(req,res)=>{
+//     res.send()
+// },(error,req,res,next)=>{
+//     res.status(400).send({
+//         error:error.message
+//     })
+// })
 
 
 app.use(express.json());
